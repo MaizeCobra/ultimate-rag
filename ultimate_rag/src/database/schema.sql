@@ -5,16 +5,19 @@ CREATE TABLE IF NOT EXISTS documents_pg (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     content TEXT NOT NULL,
     metadata JSONB DEFAULT '{}',
-    embedding vector(768) -- Gemini embedding dimension
+    embedding vector(3072) -- Gemini embedding dimension
 );
 -- Create HNSW index for fast similarity search
-CREATE INDEX IF NOT EXISTS documents_pg_embedding_idx ON documents_pg USING hnsw (embedding vector_cosine_ops);
+-- NOTE: 3072-dim vectors exceed 8KB page size for HNSW. Indexing requires quantization or larger pages.
+-- CREATE INDEX IF NOT EXISTS documents_pg_embedding_idx ON documents_pg USING hnsw (embedding vector_cosine_ops);
 -- Document metadata table
 CREATE TABLE IF NOT EXISTS document_metadata (
     id TEXT PRIMARY KEY,
-    title TEXT,
-    url TEXT,
+    filename TEXT,
+    file_type TEXT,
+    metadata JSONB DEFAULT '{}',
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    url TEXT,
     schema TEXT -- Column schema for tabular files
 );
 -- Tabular data storage (rows from CSV/XLSX)

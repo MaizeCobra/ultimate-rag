@@ -1,0 +1,6 @@
+id,name,price,category,in_stock
+1,Laptop Pro,1299.99,Electronics,true
+2,Wireless Mouse,29.99,Electronics,true
+3,Python Programming Book,49.99,Books,true
+4,Coffee Mug,12.99,Kitchen,true
+5,Standing Desk,599.99,Furniture,false

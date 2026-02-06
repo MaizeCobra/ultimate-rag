@@ -22,7 +22,7 @@ class Settings(BaseSettings):
     gemini_api_key: str
     gemini_chat_model: str = "models/gemini-2.5-pro"
     gemini_flash_model: str = "models/gemini-2.5-flash"
-    gemini_embedding_model: str = "models/embedding-001"
+    gemini_embedding_model: str = "models/gemini-embedding-001"
     
     # Google Drive (optional for Phase 1)
     google_drive_client_id: str = ""

@@ -1,0 +1,28 @@
+{
+    "title": "Sample Document",
+    "description": "A test JSON file for the ingestion pipeline",
+    "tags": [
+        "test",
+        "sample",
+        "rag"
+    ],
+    "metadata": {
+        "author": "Test User",
+        "version": 1,
+        "created": "2024-01-01"
+    },
+    "sections": [
+        {
+            "heading": "Introduction",
+            "content": "This is the introduction section."
+        },
+        {
+            "heading": "Main Content",
+            "content": "This is the main content section with more details."
+        },
+        {
+            "heading": "Conclusion",
+            "content": "This is the conclusion section."
+        }
+    ]
+}
