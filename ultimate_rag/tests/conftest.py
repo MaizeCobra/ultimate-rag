@@ -2,6 +2,7 @@
 import json
 import tempfile
 from pathlib import Path
+from unittest.mock import AsyncMock, patch
 
 import pytest
 import pytest_asyncio
@@ -9,13 +10,36 @@ import pytest_asyncio
 from src.database import close_pool, init_schema
 
 
+@pytest_asyncio.fixture
+async def mock_db_connection():
+    """Mock database connection for unit tests."""
+    mock_conn = AsyncMock()
+    mock_conn.execute = AsyncMock()
+    mock_conn.fetch = AsyncMock(return_value=[])
+    mock_conn.fetchrow = AsyncMock(return_value=None)
+    mock_conn.fetchval = AsyncMock(return_value=None)
+    
+    # Create a context manager mock
+    async def mock_get_connection():
+        return mock_conn
+    
+    mock_cm = AsyncMock()
+    mock_cm.__aenter__ = AsyncMock(return_value=mock_conn)
+    mock_cm.__aexit__ = AsyncMock(return_value=None)
+    
+    with patch("src.database.connection.get_connection", return_value=mock_cm):
+        with patch("src.agent.memory.get_connection", return_value=mock_cm):
+            yield mock_conn
+
+
+
 # Path to test fixtures
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
 
-@pytest_asyncio.fixture(autouse=True)
-async def setup_teardown():
-    """Setup and teardown for each test."""
+@pytest_asyncio.fixture
+async def db_session():
+    """Database session fixture - use only for integration tests."""
     # Setup: Initialize database schema
     await init_schema()
     yield
