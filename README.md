@@ -29,7 +29,6 @@ You can use `ultimate-rag` as a standalone library in your own apps, or run it a
 ## 🚀 Installation
 
 ### Prerequisites
-
 - Python 3.11+
 - PostgreSQL 15+ with `pgvector` extension
 - Google Gemini API Key
@@ -37,19 +36,18 @@ You can use `ultimate-rag` as a standalone library in your own apps, or run it a
 ### Setup
 
 1. **Clone the repository:**
-
    ```bash
    git clone https://github.com/yourusername/ultimate-rag.git
    cd ultimate-rag
    ```
-2. **Install dependencies:**
 
+2. **Install dependencies:**
    ```bash
    pip install -e .
    ```
+
 3. **Configure Environment:**
    Create a `.env` file in the root directory:
-
    ```ini
    # Database
    DATABASE_URL=postgresql://user:pass@localhost:5432/rag_db
@@ -133,11 +131,11 @@ await client.cleanup()
 ```mermaid
 graph LR
     User[User / App] --> Client[RAGClient Library]
-  
+    
     subgraph RAG_System
         Client --> Ingest[Ingestion Pipeline]
         Client --> Agent[RAG Agent]
-      
+        
         Ingest --> DB[(PostgreSQL + pgvector)]
         Agent --> DB
     end
@@ -147,7 +145,6 @@ graph LR
 ```
 
 ### 2. Ingestion Workflow
-
 *How documents are processed and stored.*
 
 ```mermaid
@@ -166,13 +163,12 @@ graph LR
 ```
 
 ### 3. Retrieval & Agent Workflow
-
 *How the system answers questions.*
 
 ```mermaid
 graph LR
     Query[User Query] --> Agent[RAG Agent]
-  
+    
     subgraph Agent_Tools
         Agent --> Memory[(Chat Memory)]
         Agent --> Search[Vector Search]
@@ -181,23 +177,21 @@ graph LR
 
     Search --> Vectors[(Vector Store)]
     SQL --> Rows[(Tabular Data)]
-  
+    
     Vectors --> Context[Retrieved Context]
     Rows --> Context
-  
+    
     Context --> Synthesis[LLM Answer Generation]
     Synthesis --> Response[Final Answer]
 ```
 
 ### 1. Ingestion Layer (`src.ingestion`)
-
 - **Detection**: Automatically identifies file types by extension and magic numbers.
 - **Processing**: Specialized processors for each format (e.g., `PDFProcessor` uses PyMuPDF, `SpreadsheetProcessor` handles CSV/XLSX).
 - **Chunking**: Intelligent text splitting ensuring context preservation.
 - **Embedding**: Generates vector embeddings using Gemini models.
 
 ### 2. Storage Layer (`src.database`)
-
 - **PostgreSQL**: Primary data store.
 - **pgvector**: Handles vector similarity search.
 - **Tables**:
@@ -207,7 +201,6 @@ graph LR
   - `chat_memory`: User conversation history.
 
 ### 3. Retrieval Layer (`src.agent`)
-
 - **LangChain Agent**: Orchestrates tools to answer user queries.
 - **Tools**:
   - `vector_search`: Semantic search over embeddings.
@@ -233,7 +226,6 @@ pytest -v
 ```
 
 ### Test Coverage
-
 - **Unit Tests**: Cover individual processors and database functions.
 - **Integration Tests**: Verify `RAGClient` workflows (Ingest -> Query).
 - **Live Verification**: `tests/test_verify_client_live.py` runs against a real database instance to ensure end-to-end correctness.
@@ -242,11 +234,11 @@ pytest -v
 
 ## 🗺️ Roadmap
 
-- [X] **Phase 1**: Foundation & Database Cleanup
-- [X] **Phase 2**: Universal Ingestion Pipeline
-- [X] **Phase 3**: RAG Agent & Memory
-- [X] **Phase 3.5**: Advanced DB Management
-- [X] **Phase 4**: Modular `RAGClient` Library
+- [x] **Phase 1**: Foundation & Database Cleanup
+- [x] **Phase 2**: Universal Ingestion Pipeline
+- [x] **Phase 3**: RAG Agent & Memory
+- [x] **Phase 3.5**: Advanced DB Management
+- [x] **Phase 4**: Modular `RAGClient` Library
 - [ ] **Phase 5**: CLI Tool (`rag --ingest file.pdf`)
 - [ ] **Phase 6**: REST API Server (FastAPI)
 
